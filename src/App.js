@@ -1,23 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
+import ToDoForm from './components/ToDoForm';
+import Task from './components/Task';
+// import List from './components/List';
+import React, { useState } from 'react'
 
 function App() {
+  const [storeItem, setStoreItem] = useState([])
+
+  // add function
+  const newItem = (item) => {
+    setStoreItem((currentData) => ([...currentData, item]) )
+  };
+  // remove function
+  const removeItem = id => {
+    let left = storeItem.slice(0, id)
+    let right = storeItem.slice(id +1)
+    setStoreItem(left.concat(right))
+  }
+
+
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ToDoForm addFunction = {newItem} />
+      {
+        storeItem.map((t, i) => {
+          return(
+            <Task key = {i} id = {i} removeFunction = {removeItem} task = {t.kTask} ></Task>
+          )
+        })
+      }
     </div>
   );
 }
